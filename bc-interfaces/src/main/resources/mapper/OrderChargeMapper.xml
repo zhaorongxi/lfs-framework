@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bc.interfaces.dao.OrderChargeDao">
+
+    <!-- 查询订单详情 -->
+    <select id="getOrderInfo" parameterType="com.bc.interfaces.model.dto.OrderCharge"
+            resultType="com.bc.interfaces.model.dto.OrderCharge">
+        select o.id,o.busniss_code businessCode,o.product_code productCode,o.arrive_type arriveType,o.stock_state stockState,
+        o.charge_type chargeType,o.down_order_no downOrderNo,o.order_no orderNo,o.up_order_no upOrderNo,
+        o.agt_phone agtPhone,o.agt_no agtNo,o.charge_addr chargeAddr,o.charge_money chargeMoney,
+        o.profit,o.price,o.amount,o.in_money inMoney,o.out_money outMoney,o.apply_time applyTime,o.check_time checkTime,
+        o.state,o.check_state checkState,o.error_code errorCode,o.up_chanel upChanel,o.remark,o.balance,
+        o.account_balance accountBalance,o.exp1 exp1,o.exp2 exp2,o.exp3 exp3,
+        '支付' businessName,'ZFB' upChanelName
+        from bc_order_charge o
+        where agt_phone = #{agtPhone}
+        <if test="chargeAddr!=null and chargeAddr!=''">
+            and charge_addr =#{chargeAddr}
+        </if>
+        <if test="chargeMoney!=null and chargeMoney!=''">
+            and charge_money =#{chargeMoney}
+        </if>
+        <if test="downOrderNo!=null and downOrderNo!=''">
+            and down_order_no = #{downOrderNo}
+        </if>
+        order by id desc
+    </select>
+
+
+    <select id="getSameOrderInATime" parameterType="com.bc.interfaces.model.dto.OrderCharge"
+            resultType="com.bc.interfaces.model.dto.OrderCharge">
+        select o.ID id,o.busniss_code businessCode,o.product_code productCode,o.arrive_type arriveType,o.stock_state
+        stockState,
+        o.charge_type chargeType,o.down_order_no downOrderNo,o.order_no orderNo,o.up_order_no upOrderNo,
+        o.agt_phone agtPhone,o.agt_no agtNo,o.charge_addr chargeAddr,o.charge_money chargeMoney,
+        o.profit,o.price,o.amount,o.out_money outMoney,o.apply_time applyTime,
+        o.state state,o.up_chanel upChanel
+        from bc_order_charge o
+        where charge_addr = #{chargeAddr}
+        and charge_money = #{chargeMoney}
+        and state in (-1,0,2)
+        and agt_phone = #{agtPhone}
+        and apply_time>DATE_SUB(now(),INTERVAL 10 minute)
+    </select>
+
+
+    <!--修改订单状态 和备注 -->
+    <update id="updateOrderState" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update bc_order_charge set
+        state = #{state},remark= #{remark} where id = #{id}
+    </update>
+
+    <!-- 查询是否有符合回调的订单 -->
+    <select id="getValidOrderForConfirmByBuscodeAndOrderNo"
+            parameterType="com.bc.interfaces.model.dto.OrderCharge"
+            resultType="com.bc.interfaces.model.dto.OrderCharge">
+        select o.id id,o.busniss_code businessCode,o.product_code productCode,o.arrive_type arriveType,o.stock_state stockState,
+        o.charge_type chargeType,o.down_order_no downOrderNo,o.order_no orderNo,o.up_order_no upOrderNo,
+        o.agt_phone agtPhone,o.agt_no agtNo,o.price price,o.charge_addr chargeAddr,o.charge_money chargeMoney,
+        o.profit profit,o.out_money outMoney,o.apply_time applyTime,
+        o.state state,o.check_state checkState,o.error_code errorCode,o.up_chanel upChanel
+        from bc_order_charge o
+        where state in (-1,2,5)
+        and order_no = #{orderNo}
+        <if test="upOrderNo!=null and upOrderNo!=''">
+            and up_order_no= #{upOrderNo}
+        </if>
+    </select>
+
+
+    <!-- 订单经查询上游状态后，查看是否已经处理过 -->
+    <select id="getOrderInfoAfterQuery" parameterType="com.bc.interfaces.model.dto.OrderCharge"
+            resultType="com.bc.interfaces.model.dto.OrderCharge">
+        select o.id,o.busniss_code businessCode,o.product_code productCode,o.arrive_type arriveType,o.stock_state
+        stockState,
+        o.charge_type chargeType,o.down_order_no downOrderNo,o.order_no orderNo,o.up_order_no upOrderNo,
+        o.agt_phone agtPhone,o.agt_no agtNo,o.price,o.charge_addr chargeAddr,o.charge_money chargeMoney,
+        o.profit,o.out_money outMoney,o.apply_time applyTime,
+        o.state,o.check_state checkState,o.error_code errorCode,o.up_chanel upChanel
+        from bc_order_charge o
+        where state in (-1,2)
+        and check_state= 1
+        and order_no = #{orderNo}
+        <if test="upOrderNo!=null and upOrderNo!=''">
+            and up_order_no= #{upOrderNo}
+        </if>
+    </select>
+
+    <!-- 查询订单详情（根据充值号码 充值金额 代理号码） -->
+    <select id="getOrderInfoByAgtPhoneAndChargeNum" parameterType="com.bc.interfaces.model.dto.OrderCharge"
+            resultType="com.bc.interfaces.model.dto.OrderCharge">
+        select * from(
+        select o.id,o.busniss_code businessCode,o.product_code productCode,o.arrive_type arriveType,o.stock_state
+        stockState,
+        o.charge_type chargeType,o.down_order_no downOrderNo,o.order_no orderNo,o.UPorder_no upOrderNo,
+        o.agt_phone agtPhone,o.agt_no agtNo,o.charge_addr chargeAddr,o.charge_money chargeMoney,
+        o.profit,o.out_money outMoney,o.apply_time applyTime,
+        o.state,o.check_state checkState,o.error_code errorCode,o.up_chanel upChanel
+        where charge_addr = #{chargeAddr}
+        and agt_phone = #{agtPhone} and charge_money = #{chargeMoney}
+        and apply_time &gt;= DATE_SUB(now(),INTERVAL 1 day)
+        and state not in (1,3)
+        order by id
+        desc )
+        limit 1
+    </select>
+
+    <!-- 根据订单编号查询代理商信息 -->
+    <select id="selectAgtByOrderNo" parameterType="java.lang.String" resultType="java.util.Map">
+        select agt_no,charge_money from bc_order_charge where orderNo = #{orderNo}
+    </select>
+
+    <!-- 回写回调表订单状态 -->
+    <update id="updateOrderNotifyState" parameterType="OrderNotify">
+        update
+        bc_order_nofity set state = #{state} where agt_phone = #{agtPhone} and
+        req_stream_id = #{reqStreamId}
+    </update>
+
+    <!-- 回写回调发送状态和次数 -->
+    <update id="updateOrderNotifyAfter" parameterType="OrderNotify">
+        update
+        bc_order_nofity set flag = #{flag},state = #{state},count = count + #{count} where
+        agt_phone = #{agtPhone} and
+        req_stream_id = #{reqStreamId}
+    </update>
+
+    <!-- 查询需要回调的记录 -->
+    <select id="getOrderNotifyInfo" resultType="OrderNotify">
+        select id,
+        agt_phone agtPhone,
+        req_stream_id reqStreamId,
+        order_no orderNo,
+        notify_url notifyUrl,
+        charge_money price,
+        profit,
+        count,
+        state,
+        flag,
+        date_format(apply_time,'%Y-%m-%d %H:%i:%s') applyTime
+        from bc_order_nofity
+        where 1=1
+        <if test="null != id and '' != id">
+            and id=#{id}
+        </if>
+        <if test="null != agtPhone and ''!=agtPhone">
+            and agt_phone = #{agtPhone}
+        </if>
+        <if test="null != reqStreamId and '' != reqStreamId">
+            and req_stream_id = #{reqStreamId}
+        </if>
+        <if test="null != orderNo and '' != orderNo">
+            and order_no = #{orderNo}
+        </if>
+    </select>
+
+    <!-- 查询订单详情（订单号,下游订单号,商户账号,金额,状态） -->
+    <select id="getOrderInfoByOrderNo" parameterType="com.bc.interfaces.model.vo.OrderInfoVO" resultType="java.util.Map">
+        select o.charge_addr accountNo,bbi.bank_account accountName,o.apply_time applyTime,
+        bbi.bank_name bankName,bbi.bank_mark bankMark
+        from bc_order_charge o
+        left join bc_bank_info bbi on o.charge_addr = bbi.card_no and bbi.status = 0
+        where 1=1
+        <if test="orderNo!=null and orderNo!=''">
+            and o.order_no = #{orderNo}
+        </if>
+        <if test="reqStreamId !=null and reqStreamId!=''">
+            and o.down_order_no = #{reqStreamId}
+        </if>
+    </select>
+
+    <!-- 充值后回写订单状态 -->
+    <update id="updateOrderStatus" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update bc_order_charge
+        set state = #{state},
+        remark = #{remark},
+        check_state = #{checkState},
+        account_balance = #{accountBalance},
+        check_time = now(),
+        error_code = #{errorCode}
+        <if test="upOrderNo !=null and upOrderNo !='' ">
+            ,up_order_no = #{upOrderNo}
+        </if>
+        <if test="chargeAddr !=null and chargeAddr !='' ">
+            ,charge_addr = #{chargeAddr}
+        </if>
+        <if test="state==1">
+            ,exp3=1
+        </if>
+        <if test="chargeType!=null and chargeType!=''">
+            ,charge_type = #{chargeType}
+        </if>
+        where id = #{id}
+        <if test="state==1">
+            and ifnull(exp3,0)=0
+        </if>
+    </update>
+    <!-- 回调后，修改订单状态 -->
+    <update id="updateOrderAfterNotify" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update bc_order_charge
+        set state = #{state},
+        remark= #{remark},
+        check_time=now(),
+        check_state=1
+        <if test="chargeAddr!=null and chargeAddr!=''">
+            , charge_addr= #{chargeAddr}
+        </if>
+        <if test="exp2!=null and exp2!=''">
+            , exp2= #{exp2}
+        </if>
+        <if test="upOrderNo!=null and upOrderNo!=''">
+            , up_order_no= #{upOrderNo}
+        </if>
+        <if test="state==1">
+            ,exp3=1
+        </if>
+        where state in (-1,2)
+        and order_no = #{orderNo}
+        <if test="state==1">
+            and ifnull(exp3,0)=0
+        </if>
+    </update>
+
+
+    <!-- 插入订单 -->
+    <insert id="insertOrder" parameterType="com.bc.interfaces.model.dto.OrderCharge" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into bc_order_charge
+        (busniss_code,product_code,arrive_type,stock_state,
+        down_order_no,order_no,agt_phone,agt_no,
+        charge_addr,charge_money,profit,price,amount,out_money,
+        apply_time,STATE,check_state,remark,charge_type,exp1,exp2)
+        values
+        (#{businessCode},#{productCode},#{arriveType},#{stockState},
+        #{downOrderNo},#{orderNo},#{agtPhone},#{agtNo},#{chargeAddr},
+        #{chargeMoney},#{profit},#{price},#{amount},#{outMoney},
+        now(),#{state},0,#{remark},#{chargeType},#{accountIp},#{exp2})
+    </insert>
+
+
+    <!-- 订单经查询上游状态处理后，修改订单状态 -->
+    <update id="updateOrderAfterQuery" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update bc_order_charge
+        set state = #{state},
+        check_state = #{checkState},
+        remark= #{remark},
+        check_time=now()
+        <if test="upOrderNo!=null and upOrderNo!=''">
+            , up_order_no= #{upOrderNo}
+        </if>
+        <if test="chargeAddr!=null and chargeAddr!=''">
+            , charge_addr= #{chargeAddr}
+        </if>
+        <if test="exp2!=null and exp2!=''">
+            , exp2= #{exp2}
+        </if>
+        <if test="state==1">
+            ,exp3=1
+        </if>
+        where state in (-1,2)
+        and order_no = #{orderNo}
+        <if test="state==1">
+            and ifnull(exp3,0)=0
+        </if>
+    </update>
+
+    <update id="updateChannelPrice" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update
+        bc_order_charge
+        set
+        channel_price =#{channelPrice},
+        up_chanel=#{upchanel},
+        error_code=#{errorCode},
+        remark=#{remark}
+        <if test="upOrderNo!=null and upOrderNo!=''">
+            , up_order_no= #{upOrderNo}
+        </if>
+        where order_no = #{orderNo}
+    </update>
+
+    <update id="updateChannelStatus" parameterType="com.bc.interfaces.model.dto.OrderCharge">
+        update bc_order_charge set error_code=#{errorCode},
+        <if test="null != qrCode and '' != qrCode">
+            qr_code = #{qrCode},
+        </if>
+        remark=#{remark},state=2,up_order_no=#{upOrderNo},qr_apply_time = now() where
+        order_no = #{orderNo} and state=-1
+    </update>
+
+
+
+    <insert id="inserFailOrder" parameterType="map">
+        insert into bc_fail_order (resp_code,order_no,up_order_no,status,deal_time)
+        values(#{respCode},#{orderNo},#{upOrderNo},#{status},now())
+    </insert>
+
+    <select id="listFailOrder" resultType="map">
+        select id,resp_code respCode,order_no orderNo,up_order_no upOrderNo,status from bc_fail_order order by
+        deal_time asc limit 100
+    </select>
+
+    <delete id="deleteFailOrder" parameterType="java.util.List">
+        delete from bc_fail_order WHERE id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+    </delete>
+</mapper>
