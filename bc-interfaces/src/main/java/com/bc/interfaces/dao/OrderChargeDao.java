@@ -55,4 +55,6 @@ public interface OrderChargeDao {
 
     Map<String,String> getOrderInfoByOrderNo(OrderInfoVO orderInfoVO);
 
+    int updateOrderInfo(OrderInfoVO orderInfoVO);
+
 }

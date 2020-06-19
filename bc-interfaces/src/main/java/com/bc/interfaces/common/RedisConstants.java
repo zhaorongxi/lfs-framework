@@ -38,6 +38,6 @@ public class RedisConstants {
     /**
      * 验证码60秒
      */
-    public static final String SEND_SIXTY_CODE = ":sixtyCode";
+    public static final String SEND_VERIFY_CODE = ":verifyCode";
 
 }

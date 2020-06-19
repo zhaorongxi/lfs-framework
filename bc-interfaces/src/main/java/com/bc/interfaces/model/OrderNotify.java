@@ -32,6 +32,8 @@ public class OrderNotify implements Serializable {
 
     private BigDecimal profit;
 
+    private String payAccountName;
+
 
     public BigDecimal getPrice() {
         return price;
@@ -127,5 +129,13 @@ public class OrderNotify implements Serializable {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPayAccountName() {
+        return payAccountName;
+    }
+
+    public void setPayAccountName(String payAccountName) {
+        this.payAccountName = payAccountName;
     }
 }

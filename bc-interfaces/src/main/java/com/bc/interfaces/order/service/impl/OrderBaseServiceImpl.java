@@ -11,6 +11,7 @@ import com.bc.interfaces.dao.AgentDao;
 import com.bc.interfaces.dao.BaseChargeDao;
 import com.bc.interfaces.dao.OrderChargeDao;
 import com.bc.interfaces.dto.ResultReturn;
+import com.bc.interfaces.feign.NotifyFeignService;
 import com.bc.interfaces.model.Agent;
 import com.bc.interfaces.model.AgtWallet;
 import com.bc.interfaces.model.OrderNotify;
@@ -52,6 +53,10 @@ public class OrderBaseServiceImpl implements OrderBaseService {
 
     @Autowired
     private AgentWalletService agentWalletService;
+
+    @Autowired
+    private NotifyFeignService notifyFeignService;
+
     /**
      * 回写订单状态RT0002
      */
@@ -68,9 +73,9 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             updateOrder.setUpOrderNo(dto.getUpOrderNo());
             updateOrder.setCheckState(dto.getCheckState());
             if (orderChargeDao.updateOrderStatus(updateOrder) > 0) {
-                update= 1;
+                update = 1;
             } else {
-                update= 0;
+                update = 0;
             }
         } catch (Exception e) {
             update = 0;
@@ -82,7 +87,7 @@ public class OrderBaseServiceImpl implements OrderBaseService {
      * 插入订单，扣款，插入资金变动RT0003
      */
     @Override
-    public  ResultReturn<Long> createOrder(OrderDto dto) {
+    public ResultReturn<Long> createOrder(OrderDto dto) {
         Long result = -3L;
         try {
             // 验证通过,插入订单，扣款
@@ -102,21 +107,22 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             order.setState(dto.getState());
             order.setExp2(dto.getExp2());
 
-            BigDecimal profit=dto.getProfit();
+            BigDecimal profit = dto.getProfit();
             order.setProfit(profit);
             order.setPrice(dto.getPrice());
             order.setAmount(dto.getAmount());
-            BigDecimal outMoney=dto.getOutMoney();
+            BigDecimal outMoney = dto.getOutMoney();
             order.setOutMoney(outMoney); // 扣款金额
             order.setRemark("提交成功");
             order.setChargeType(dto.getChargeType());
             // 插入订单
-            int insert = orderChargeDao.insertOrder(order);;
+            int insert = orderChargeDao.insertOrder(order);
+            ;
             if (insert <= 0) {
                 // 订单插入失败
-                result= -2L;
+                result = -2L;
             }
-            result= order.getId();
+            result = order.getId();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result = -3L;
@@ -141,8 +147,8 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             updateOrder.setCheckState(dto.getCheckState());
             updateOrder.setChargeType(dto.getRechargeType());
             updateOrder.setChargeAddr(dto.getChargeAddr());
-            result =orderChargeDao.updateOrderStatus(updateOrder);
-            long orderId=dto.getId();
+            result = orderChargeDao.updateOrderStatus(updateOrder);
+            long orderId = dto.getId();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result = -3;
@@ -160,11 +166,11 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             // 回写订单状态和备注
             OrderCharge updateOrder = new OrderCharge();
             updateOrder.setOrderNo(dto.getOrderNo());
-            int state=dto.getState();
+            int state = dto.getState();
             updateOrder.setState(state);
             updateOrder.setCheckState(dto.getCheckState());
             updateOrder.setRemark(dto.getRemark());
-            result=orderChargeDao.updateOrderAfterQuery(updateOrder);
+            result = orderChargeDao.updateOrderAfterQuery(updateOrder);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result = -3;
@@ -180,7 +186,7 @@ public class OrderBaseServiceImpl implements OrderBaseService {
         Integer result = -3;
         try {
             OrderCharge order = new OrderCharge();
-            long orderId=dto.getId();
+            long orderId = dto.getId();
             order.setOrderNo(dto.getOrderNo());
             order.setState(dto.getState());
             order.setRemark(dto.getRemark());
@@ -188,7 +194,7 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             order.setChargeAddr(dto.getChargeAddr());
             order.setExp2(dto.getExp2());
             Integer state = dto.getState();
-            result=orderChargeDao.updateOrderAfterNotify(order);
+            result = orderChargeDao.updateOrderAfterNotify(order);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result = -3;
@@ -200,7 +206,8 @@ public class OrderBaseServiceImpl implements OrderBaseService {
      * 发送回调
      */
     @Override
-    public void sendNotify(OrderNotifyDto dto) {
+    public String sendNotify(OrderNotifyDto dto) {
+        String notifyResult = "fail";
         try {
             // 1、回写回调表订单状态
             OrderNotify notify = new OrderNotify();
@@ -208,40 +215,46 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             notify.setAgtPhone(dto.getAgtPhone());
             notify.setReqStreamId(dto.getReqStreamId());
             notify.setState(dto.getState());
-                log.info("回调准备发送:" +dto.getAgtPhone() + "|" + dto.getReqStreamId() + "|" + dto.getState());
+            log.info("回调准备发送:" + dto.getAgtPhone() + "|" + dto.getReqStreamId() + "|" + dto.getState());
             // 2、发送一次回调
             OrderNotify orderNotifyInfo = orderChargeDao.getOrderNotifyInfo(notify);
-            if(null != orderNotifyInfo ){
-                if(orderNotifyInfo.getCount() >=5){
-                    log.info("当前订单号={},已经重发回调5次,不再发送回调!",dto.getReqStreamId());
+            if (null != orderNotifyInfo) {
+                if (orderNotifyInfo.getCount() >= 5) {
+                    notify.setFlag(4);
+                    log.info("当前订单号={},已经重发回调5次,不再发送回调!", dto.getReqStreamId());
+                    // 3、回写回调表发送状态
+                    orderChargeDao.updateOrderNotifyAfter(notify);
+                    return notifyResult;
                 }
-            }else{
-                log.error("未找到订单号={},回调订单记录",dto.getReqStreamId());
+            } else {
+                log.error("未找到订单号={},回调订单记录", dto.getReqStreamId());
+                return notifyResult;
             }
             notify.setCount(1);
             ResultReturn<AgtAccessVo> accessReturn = agentSerivce.getAgtAccessByAgtPhone(notify.getAgtPhone());
             if (accessReturn.getStatus().equals(Constants.SUCCESS)) {
                 if (StringUtils.isNotBlank(orderNotifyInfo.getNotifyUrl())) {
                     AgtAccessVo vo = accessReturn.getData();
-                    String notifyResult = null;
                     // 其他统一回调
                     orderNotifyInfo.setState(dto.getState());
-                    if(dto.getChargeType().equals(CommonConstants.BANK_CARD_TYPE)){
+                    if (dto.getChargeType().equals(CommonConstants.BANK_CARD_TYPE)) {
                         orderNotifyInfo.setPrice(orderNotifyInfo.getPrice());
-                    }else{
+                    } else {
                         orderNotifyInfo.setPrice(dto.getPrice());
                     }
                     notifyResult = sendNotifyRuitone(orderNotifyInfo, vo.getAppKey());
 
-                    log.info("回调发送完成:" + dto.getReqStreamId() + "|" + dto.getState());
-                    if(StringUtils.isBlank(notifyResult)){
-                        notify.setFlag(1);
+                    log.info("回调发送完成商户订单号={},回调商户订单状态={},回调结果={}:",dto.getReqStreamId(),dto.getState(),notifyResult);
+                    if (StringUtils.isBlank(notifyResult)) {
+                        log.info("订单号:{}回调发送成功,下游返回接收结果为空", dto.getOrderNo());
+                        notify.setFlag(CommonConstants.NOTIFY_NO_RESPONSE);
+                        notifyResult = "fail";
                     } else if (notifyResult.equals(CommonConstants.NOTIFY_DOWN_SUCCESS)) {
                         // 客户方返回接收成功
-                        notify.setFlag(2);
+                        notify.setFlag(CommonConstants.NOTIFY_SUCCESS);
                     } else {
-                        // 客户方返回接收失败
-                        notify.setFlag(4);
+                        notify.setFlag(CommonConstants.NOTIFY_FAIL);
+                        log.info("订单号:{}回调发送成功,下游返回接收失败", dto.getOrderNo());
                     }
                     // 3、回写回调表发送状态
                     orderChargeDao.updateOrderNotifyAfter(notify);
@@ -249,8 +262,9 @@ public class OrderBaseServiceImpl implements OrderBaseService {
             }
             // }
         } catch (Exception e) {
-            log.error(dto.getReqStreamId()+" 回调下游异常:"+e.getMessage(), e);
+            log.error(dto.getReqStreamId() + " 回调下游异常:" + e.getMessage(), e);
         }
+        return notifyResult;
     }
 
 
@@ -275,21 +289,19 @@ public class OrderBaseServiceImpl implements OrderBaseService {
     }
 
     @Override
-    public String getAgtnoByAgtPhone(String agtPhone)
-    {
-        return baseChargeDao.selectOne("OrderChargeMapper.getAgtnoByAgtPhone",agtPhone);
+    public String getAgtnoByAgtPhone(String agtPhone) {
+        return baseChargeDao.selectOne("OrderChargeMapper.getAgtnoByAgtPhone", agtPhone);
     }
 
     @Override
     public OrderDto getOrderInfo(String orderNo) {
-        return baseChargeDao.selectOne("OrderChargeMapper.getOrderInfoByOrderNo",orderNo);
+        return baseChargeDao.selectOne("OrderChargeMapper.getOrderInfoByOrderNo", orderNo);
     }
 
     /**
      * 拼签名串
      */
-    public static String getSignStr(Map<String, Object> paramMap)
-    {
+    public static String getSignStr(Map<String, Object> paramMap) {
         Map<String, Object> map = new TreeMap<String, Object>(
                 new Comparator<String>() {
                     public int compare(String obj1, String obj2) {
@@ -307,12 +319,9 @@ public class OrderBaseServiceImpl implements OrderBaseService {
 
             String key = iter.next();
             System.out.println(key + ":" + map.get(key));
-            if(flag)
-            {
+            if (flag) {
                 bf.append(key).append("=").append(map.get(key));
-            }
-            else
-            {
+            } else {
                 bf.append("&").append(key).append("=").append(paramMap.get(key));
             }
             flag = false;
@@ -326,15 +335,15 @@ public class OrderBaseServiceImpl implements OrderBaseService {
      */
     public String sendNotifyRuitone(OrderNotify orderNotifyInfo, String key) {
         String sign = "";
-        if(StringUtils.isNotBlank(key)){
-            sign = orderNotifyInfo.getAgtPhone() + orderNotifyInfo.getReqStreamId() + orderNotifyInfo.getState()+orderNotifyInfo.getOrderNo()+orderNotifyInfo.getPrice()+key;
-        }else{
-            sign = orderNotifyInfo.getAgtPhone() + orderNotifyInfo.getReqStreamId() + orderNotifyInfo.getState()+orderNotifyInfo.getOrderNo()+orderNotifyInfo.getPrice();
+        if (StringUtils.isNotBlank(key)) {
+            sign = orderNotifyInfo.getAgtPhone() + orderNotifyInfo.getReqStreamId() + orderNotifyInfo.getState() + orderNotifyInfo.getOrderNo() + orderNotifyInfo.getPrice() + key;
+        } else {
+            sign = orderNotifyInfo.getAgtPhone() + orderNotifyInfo.getReqStreamId() + orderNotifyInfo.getState() + orderNotifyInfo.getOrderNo() + orderNotifyInfo.getPrice();
         }
 
         String notifyUrl = orderNotifyInfo.getNotifyUrl() + "?agtPhone=" + orderNotifyInfo.getAgtPhone()
                 + "&reqStreamId=" + orderNotifyInfo.getReqStreamId() + "&state=" + orderNotifyInfo.getState()
-                + "&orderNo=" + orderNotifyInfo.getOrderNo()+ "&price=" + orderNotifyInfo.getPrice()
+                + "&orderNo=" + orderNotifyInfo.getOrderNo() + "&price=" + orderNotifyInfo.getPrice()
                 + "&sign=" + MD5Utils.getSignatureByMD5(sign).toLowerCase();
         log.info("SendNotifyUrl=[" + notifyUrl + "]");
         HttpGet httpGet = new HttpGet(notifyUrl);
@@ -356,13 +365,18 @@ public class OrderBaseServiceImpl implements OrderBaseService {
     }
 
     @Override
-    public Map<String,String> getOrderInfoByOrderNo(OrderInfoVO orderInfoVO) {
-        Map<String,String> resultMap =  orderChargeDao.getOrderInfoByOrderNo(orderInfoVO);
-        if(null == resultMap || resultMap.isEmpty()){
-            log.info("根据订单号未找到有效收款银行账号!");
-            throw new ServiceException(CommonConstants.BANK_CARD_NOT_EXIST,"未找到有效的收款账号!");
+    public Map<String, String> getOrderInfoByOrderNo(OrderInfoVO orderInfoVO) {
+        Map<String, String> resultMap = orderChargeDao.getOrderInfoByOrderNo(orderInfoVO);
+        if (null == resultMap || resultMap.isEmpty()) {
+            log.info("该订单已被支付或未找到有效收款银行账号!");
+            throw new ServiceException(CommonConstants.BANK_CARD_NOT_EXIST, "该订单已被支付或未找到有效收款银行账号!");
         }
         return resultMap;
+    }
+
+    @Override
+    public int updateOrderInfo(OrderInfoVO orderInfoVO) {
+        return orderChargeDao.updateOrderInfo(orderInfoVO);
     }
 
     public void updateSendStatus(Map<String, Object> map) {
@@ -378,7 +392,7 @@ public class OrderBaseServiceImpl implements OrderBaseService {
     }
 
     @Override
-    public Map<String,Object> selectAgtByOrderNo(String orderNo) {
+    public Map<String, Object> selectAgtByOrderNo(String orderNo) {
         return orderChargeDao.selectAgtByOrderNo(orderNo);
     }
 
@@ -394,8 +408,6 @@ public class OrderBaseServiceImpl implements OrderBaseService {
     public int insertRechargeOrder(OrderDto orderDto) {
         return orderChargeDao.insertRechargeOrder(orderDto);
     }
-
-
 
 
 }

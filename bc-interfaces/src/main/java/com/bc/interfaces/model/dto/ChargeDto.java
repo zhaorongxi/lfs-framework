@@ -41,9 +41,9 @@ public class ChargeDto implements Serializable {
     private Integer productType;
 
     public ChargeDto() {
-        this.productCode = "111111";
+        this.productCode = "111124";
         this.chargeAddr = "111111";
-        this.accountIp = "120.24.35.210";
+        this.accountIp = "120.24.35.210,120.77.201.121";
     }
 
     public String getAppId() {

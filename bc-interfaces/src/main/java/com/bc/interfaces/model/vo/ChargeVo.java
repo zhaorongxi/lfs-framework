@@ -25,6 +25,8 @@ public class ChargeVo implements Serializable {
 
     private String payUrl;
 
+    private String exp1;
+
     public ChargeVo() {
         this.orderNo = "";
         this.balance = new BigDecimal(0.00);
@@ -101,5 +103,13 @@ public class ChargeVo implements Serializable {
 
     public void setAgtPhone(String agtPhone) {
         this.agtPhone = agtPhone;
+    }
+
+    public String getExp1() {
+        return exp1;
+    }
+
+    public void setExp1(String exp1) {
+        this.exp1 = exp1;
     }
 }

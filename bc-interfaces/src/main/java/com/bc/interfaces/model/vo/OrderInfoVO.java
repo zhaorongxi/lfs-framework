@@ -1,11 +1,14 @@
 package com.bc.interfaces.model.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class OrderInfoVO implements Serializable {
 
     private static final long serialVersionUID = -7924457651725561859L;
     private String orderNo;
+
+    private BigDecimal chargeMoney;
 
     private String reqStreamId;
 
@@ -115,10 +118,19 @@ public class OrderInfoVO implements Serializable {
         this.upOrderNo = upOrderNo;
     }
 
+    public BigDecimal getChargeMoney() {
+        return chargeMoney;
+    }
+
+    public void setChargeMoney(BigDecimal chargeMoney) {
+        this.chargeMoney = chargeMoney;
+    }
+
     @Override
     public String toString() {
         return "OrderInfoVO{" +
                 "orderNo='" + orderNo + '\'' +
+                ", chargeMoney=" + chargeMoney +
                 ", reqStreamId='" + reqStreamId + '\'' +
                 ", upOrderNo='" + upOrderNo + '\'' +
                 ", agtPhone='" + agtPhone + '\'' +

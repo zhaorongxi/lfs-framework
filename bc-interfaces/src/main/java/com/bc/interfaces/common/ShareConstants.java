@@ -9,4 +9,6 @@ public class ShareConstants {
     public static final Long APP_EXPIRE = 7L;
 
     public static final Long MINI_EXPIRE = 2L;
+
+    public static final Long VERIFY_CODE_EXPIRE = 60L;
 }

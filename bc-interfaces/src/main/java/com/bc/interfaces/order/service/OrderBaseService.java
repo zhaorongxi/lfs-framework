@@ -21,7 +21,7 @@ public interface OrderBaseService {
 
     ResultReturn<Integer> updateOrderAfterNotity(OrderDto dto);
 
-    void sendNotify(OrderNotifyDto dto);
+    String sendNotify(OrderNotifyDto dto);
 
     void updateChannelPrice(OrderDto orderDto);
 
@@ -48,5 +48,7 @@ public interface OrderBaseService {
     OrderDto getOrderInfo(String orderNo);
 
     Map<String,String> getOrderInfoByOrderNo(OrderInfoVO orderInfoVO);
+
+    int updateOrderInfo(OrderInfoVO orderInfoVO);
 
 }
