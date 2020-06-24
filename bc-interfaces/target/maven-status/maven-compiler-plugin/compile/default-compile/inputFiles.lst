@@ -63,6 +63,7 @@ E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\model
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\common\ShareConstants.java
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\model\NotifyModel.java
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\bank\service\impl\BankServiceImpl.java
+E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\feign\NotifyFeignService.java
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\product\service\impl\ProductServiceImpl.java
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\model\zfb\request\dto\ZFBGoodsDetailsDto.java
 E:\bc-workspace\bc-framework\bc-interfaces\src\main\java\com\bc\interfaces\model\ApiOrderNotify.java

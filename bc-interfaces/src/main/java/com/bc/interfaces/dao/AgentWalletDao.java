@@ -1,9 +1,9 @@
 package com.bc.interfaces.dao;
 
-import com.bc.interfaces.model.AgtWallet;
+import java.util.Map;
 
 public interface AgentWalletDao {
 
-    int addAgentWallet(AgtWallet agtWallet);
+    Map<String,Object> addAgentWallet(Map<String,Object> map);
 
 }

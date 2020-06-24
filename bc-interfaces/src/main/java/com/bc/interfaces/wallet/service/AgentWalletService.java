@@ -1,8 +1,8 @@
 package com.bc.interfaces.wallet.service;
 
-import com.bc.interfaces.model.AgtWallet;
+import java.util.Map;
 
 public interface AgentWalletService {
 
-    int addAgentWallet(AgtWallet agtWallet);
+    Map<String,Object> addAgentWallet(Map<String,Object> map);
 }

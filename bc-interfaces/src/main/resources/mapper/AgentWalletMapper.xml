@@ -13,8 +13,10 @@
 
 	</resultMap>
 
-	<update id="addAgentWallet" parameterType="com.bc.interfaces.model.AgtWallet">
-		update bc_agt_wallet set credit = credit + #{credit},last_time = now() where agt_phone = #{agtPhone}
-	</update>
+	<!-- 修改保证金余额和佣金 -->
+	<select id="addAgentWallet" parameterType="map" statementType="CALLABLE">
+		{call
+		procedure_add_agt_wallet(#{chargeMoney,mode=IN,jdbcType=DECIMAL},#{agtPhone,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=INTEGER})};
+	</select>
 
 </mapper>

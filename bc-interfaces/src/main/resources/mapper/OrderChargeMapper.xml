@@ -165,7 +165,7 @@
         from bc_order_charge o
         left join bc_bank_info bbi on o.charge_addr = bbi.card_no and bbi.status = 0
         left join bc_order_nofity bon on o.order_no = bon.order_no
-        where 1=1 and o.state in (-1,2,5)
+        where 1=1
         <if test="orderNo!=null and orderNo!=''">
             and o.order_no = #{orderNo}
         </if>

@@ -39,6 +39,7 @@ com\bc\interfaces\model\vo\ChargeVo.class
 com\bc\interfaces\model\zfb\request\dto\ZFBSettleInfoDto.class
 com\bc\interfaces\model\zfb\request\dto\ZFBExtendParamsDto.class
 com\bc\interfaces\log\service\impl\LogFileServiceImpl.class
+com\bc\interfaces\feign\NotifyFeignService.class
 com\bc\interfaces\model\zfb\response\dto\ZFBPreCreateResponseDto.class
 com\bc\interfaces\model\dto\ChargeDto.class
 com\bc\interfaces\order\service\OrderBaseService.class

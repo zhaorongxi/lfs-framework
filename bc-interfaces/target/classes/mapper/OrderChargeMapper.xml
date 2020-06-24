@@ -120,7 +120,11 @@
     <!-- 回写回调发送状态和次数 -->
     <update id="updateOrderNotifyAfter" parameterType="OrderNotify">
         update
-        bc_order_nofity set flag = #{flag},state = #{state},count = count + #{count} where
+        bc_order_nofity set flag = #{flag},state = #{state}
+        <if test="null != count and '' != count">
+            ,count = count + #{count}
+        </if>
+        where
         agt_phone = #{agtPhone} and
         req_stream_id = #{reqStreamId}
     </update>
@@ -157,9 +161,10 @@
     <!-- 查询订单详情（订单号,下游订单号,商户账号,金额,状态） -->
     <select id="getOrderInfoByOrderNo" parameterType="com.bc.interfaces.model.vo.OrderInfoVO" resultType="java.util.Map">
         select o.charge_addr accountNo,bbi.bank_account accountName,o.apply_time applyTime,
-        bbi.bank_name bankName,bbi.bank_mark bankMark
+        o.charge_money chargeMoney,bon.pay_account_name payAccountName,bbi.bank_name bankName,bbi.bank_mark bankMark
         from bc_order_charge o
         left join bc_bank_info bbi on o.charge_addr = bbi.card_no and bbi.status = 0
+        left join bc_order_nofity bon on o.order_no = bon.order_no
         where 1=1
         <if test="orderNo!=null and orderNo!=''">
             and o.order_no = #{orderNo}
@@ -214,13 +219,21 @@
         <if test="state==1">
             ,exp3=1
         </if>
-        where state in (-1,2)
+        where state in (-1,2,5,6)
         and order_no = #{orderNo}
         <if test="state==1">
             and ifnull(exp3,0)=0
         </if>
     </update>
 
+    <update id="updateOrderInfo" parameterType="com.bc.interfaces.model.vo.OrderInfoVO" >
+        update bc_order_nofity set pay_account_name = #{exp2}
+        <if test="null != chargeMoney and '' != chargeMoney">
+            ,charge_money = #{chargeMoney}
+        </if>
+        where order_no = #{orderNo}
+        and state!=0 and flag != 2
+    </update>
 
     <!-- 插入订单 -->
     <insert id="insertOrder" parameterType="com.bc.interfaces.model.dto.OrderCharge" keyProperty="id"
