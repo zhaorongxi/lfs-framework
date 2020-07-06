@@ -1,7 +1,5 @@
 package com.bc.cache.redis.base;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -9,18 +7,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * <p><b>Title:</b><i>Redis 公共操作</i></p>
  * <p>Desc: TODO</p>
- * <p>source folder:{@docRoot}</p>
- * <p>Copyright:Copyright(c)2018</p>
- * <p>Company:vanke</p>
- * <p>Create Date:2018年7月25日 下午6:07:24</p>
- * <p>Modified By:wanglz08-</p>
- * <p>Modified Date:2018年7月25日 下午6:07:24</p>
- * @author <a href="mailto:wanglz08@vanke.com" title="邮箱地址">wanglz08</a>
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
  * @version Version 0.1
- *
  */
 @Repository
 public class CommonCache{

@@ -23,6 +23,8 @@
         <module>bc-dto</module>
         <module>bc-cache</module>
         <module>bc-interfaces</module>
+        <module>bc-elasticsearch</module>
+        <module>bc-mongo</module>
     </modules>
 
     <parent>

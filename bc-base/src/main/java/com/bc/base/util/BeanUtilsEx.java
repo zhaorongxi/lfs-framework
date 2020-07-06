@@ -1,27 +1,19 @@
 package com.bc.base.util;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
+
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * <p><b>Title:</b><i>扩展Apache Commons BeanUtils, 提供一些反射方面缺失功能的封装</i></p>
- * <p>Desc: TODO</p>
- * <p>source folder:{@docRoot}</p>
- * <p>Copyright:Copyright(c)2018</p>
- * <p>Company:vanke</p>
- * <p>Create Date:2018年7月25日 下午7:34:16</p>
- * <p>Modified By:wanglz08-</p>
- * <p>Modified Date:2018年7月25日 下午7:34:16</p>
- * @author <a href="mailto:wanglz08@vanke.com title="邮箱地址">wanglz08</a>
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
  * @version Version 0.1
- *
  */
 @SuppressWarnings("unchecked")
 public class BeanUtilsEx extends org.apache.commons.beanutils.BeanUtils {

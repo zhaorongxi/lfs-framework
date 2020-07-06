@@ -8,7 +8,12 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author xuy99
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
+ * @version Version 0.1
  */
 public class SearchParams implements Serializable {
 

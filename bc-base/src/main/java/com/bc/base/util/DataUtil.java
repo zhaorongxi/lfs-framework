@@ -1,6 +1,14 @@
 package com.bc.base.util;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.validator.GenericValidator;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
@@ -9,39 +17,18 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.GenericValidator;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 /**
  * <p><b>Title:</b><i>参数解析工具</i></p>
  * <p>Desc:提供各种对数据进行处理的方法,待优化和调整 TODO</p>
- * <p>source folder:{@docRoot}</p>
- * <p>Copyright:Copyright(c)2018</p>
- * <p>Company:vanke</p>
- * <p>Create Date:2018年7月23日 上午9:09:07</p>
- * <p>Modified By:wanglz08-</p>
- * <p>Modified Date:2018年7月23日 上午9:09:07</p>
- * @author <a href="mailto:wanglz08@vanke.com title="邮箱地址">wanglz08</a>
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
  * @version Version 0.1
- *
  */
 public class DataUtil {
 

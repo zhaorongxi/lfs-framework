@@ -14,16 +14,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 /**
- * <p><b>Title:</b><i>TODO</i></p >
- * <p>Desc: TODO</p >
- * <p>source folder:com.bc.base.aspect.ServiceLogAspect</p >
- * <p>Copyright:Copyright(c)2018</p >
- * <p>Company:vanke</p >
- * <p>Create Date:2018/8/31 上午11:01</p >
- * <p>Modified By:v-mol01</p >
- * <p>Modified Date:2018/8/31 上午11:01</p >
  *
- * @author <a href=" " title="邮箱地址">v-mol01@vanke.com</a >
+ * @author linxi
  * @version Version 0.1
  */
 @Aspect

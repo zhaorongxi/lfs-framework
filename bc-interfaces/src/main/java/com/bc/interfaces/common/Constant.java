@@ -38,5 +38,6 @@ public class Constant {
 	public static final String HASH_BANK_INFO_LIST = "hash:bankInfoList";
 	public static final String HASH_BANK_INFO_COUNT = "hash:bankInfoCount";
 	public static final String HASH_AGENT_INFO_LIST = "hash:agtInfoList";
+	public static final String HASH_AGENT_APP_KEY = "hash:agentAppKey";
 
 }
