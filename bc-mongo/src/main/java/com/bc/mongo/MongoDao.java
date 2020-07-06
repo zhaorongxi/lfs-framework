@@ -1,8 +1,8 @@
 package com.bc.mongo;
 
-import java.util.List;
-import java.util.Map;
-
+import com.bc.base.util.BeanUtilsEx;
+import com.bc.base.util.SpringUtil;
+import com.bc.mongo.entity.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.vanke.base.util.BeanUtilsEx;
-import com.vanke.base.util.SpringUtil;
-import com.vanke.vkframework.mongo.entity.Page;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * <p><b>Title:</b><i></i></p>
@@ -197,7 +197,7 @@ public class MongoDao<T> {
 	 * @param query
 	 * @return
 	 */
-	public Page<T> findPage(Page<T> page,Map<String,Object> map){
+	public Page<T> findPage(Page<T> page, Map<String,Object> map){
 		
 		Query query= this.getQuery(map);
 		
