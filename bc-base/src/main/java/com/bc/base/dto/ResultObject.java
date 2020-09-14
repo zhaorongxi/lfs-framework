@@ -5,15 +5,12 @@ import com.bc.base.enums.HttpStatusEnum;
 /**
  * <p><b>Title:</b><i>传递结果信息</i></p>
  * <p>Desc: 包含复杂对象结果信息</p>
- * <p>source folder:{@docRoot}</p>
- * <p>Copyright:Copyright(c)2018</p>
- * <p>Company:vanke</p>
- * <p>Create Date:2018年8月21日 下午6:16:38</p>
- * <p>Modified By:wanglz08-</p>
- * <p>Modified Date:2018年8月21日 下午6:16:38</p>
- * @author <a href="mailto:wanglz08@vanke.com" title="邮箱地址">wanglz08</a>
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
  * @version Version 0.1
- *
  */
 public class ResultObject {
 	/**

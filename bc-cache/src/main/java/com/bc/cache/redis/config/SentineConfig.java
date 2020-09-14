@@ -1,37 +1,29 @@
 package com.bc.cache.redis.config;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import com.bc.cache.redis.config.model.RedisModelSentine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.stereotype.Service;
-
-import com.bc.cache.redis.config.model.RedisModelCluster;
-import com.bc.cache.redis.config.model.RedisModelSentine;
-
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p><b>Title:</b><i>哨兵模式</i></p>
  * <p>Desc: TODO</p>
- * <p>source folder:{@docRoot}</p>
- * <p>Copyright:Copyright(c)2018</p>
- * <p>Company:vanke</p>
- * <p>Create Date:2018年7月25日 上午11:24:09</p>
- * <p>Modified By:wanglz08-</p>
- * <p>Modified Date:2018年7月25日 上午11:24:09</p>
- * @author <a href="mailto:wanglz08@vanke.com" title="邮箱地址">wanglz08</a>
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
  * @version Version 0.1
- *
  */
 @Configuration
 public class SentineConfig {

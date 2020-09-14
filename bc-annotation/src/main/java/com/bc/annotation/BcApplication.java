@@ -18,16 +18,8 @@ import java.lang.annotation.*;
  * componentScan注解默认扫描包：com.bc.*
  * 若需自定义，参考以下使用方式：
  * 第一个参数为com.bc.*,第二个开始为自定义扫描包
- * @VkApplication（"{com.bc.*,pages}"）
- * </p >
- * <p>source folder:com.bc.annotation.BcApplication</p >
- * <p>Copyright:Copyright(c)2018</p >
- * <p>Company:vanke</p >
- * <p>Create Date:2018/9/2 上午9:44</p >
- * <p>Modified By:v-mol01</p >
- * <p>Modified Date:2018/9/2 上午9:44</p >
  *
- * @author <a href=" " title="邮箱地址">v-mol01@vanke.com</a >
+ * @author linxi</a >
  * @version Version 0.1
  */
 @Target({ElementType.TYPE})

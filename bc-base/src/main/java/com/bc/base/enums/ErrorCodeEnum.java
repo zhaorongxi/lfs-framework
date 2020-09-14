@@ -1,17 +1,15 @@
 package com.bc.base.enums;
 
 /**
- * Copyright: Copyright (c) 2019  Dylan
- *
  * @ClassName: ErrorCode
  * @Description: 错误码
  * @version: v1.0.0
- * @author: Dylan
- * @date 2019/2/15 5:36 PM
- */
-/**
- * @author wanglz08
- *
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
+ * @version Version 0.1
  */
 public enum ErrorCodeEnum {
 

@@ -1,11 +1,14 @@
 package com.bc.base.exception;
 
 /**
- * @program: VBIM
  * @description: 统一异常返回类
- * @author: Dylan
- * @create: 2018-11-28 16:19
- **/
+ * <p>Copyright:Copyright(c)2018</p >
+ * <p>Create Date:2019/9/1 下午5:14</p >
+ * <p>Modified By:linxi</p >
+ * <p>Modified Date:2019/9/1 下午5:14</p >
+ * @author linxi
+ * @version Version 0.1
+ */
 public class ApiException extends RuntimeException {
     private String errMsg;
     private String errCode;
