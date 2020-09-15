@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bc.framework</groupId>
-    <artifactId>bc-framework</artifactId>
+    <groupId>com.lfs.framework</groupId>
+    <artifactId>lfs-framework</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
@@ -16,15 +16,15 @@
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
     </properties>
     <modules>
-        <module>bc-annotation</module>
-        <module>bc-dao</module>
-        <module>bc-base</module>
-        <module>bc-http</module>
-        <module>bc-dto</module>
-        <module>bc-cache</module>
-        <module>bc-interfaces</module>
-        <module>bc-elasticsearch</module>
-        <module>bc-mongo</module>
+        <module>lfs-annotation</module>
+        <module>lfs-dao</module>
+        <module>lfs-base</module>
+        <module>lfs-http</module>
+        <module>lfs-dto</module>
+        <module>lfs-cache</module>
+        <module>lfs-interfaces</module>
+        <module>lfs-elasticsearch</module>
+        <module>lfs-mongo</module>
     </modules>
 
     <parent>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfs.dao.conn.IDao">
+    <!-- 局部新增 -->
+    <insert id="save" useGeneratedKeys = "true" keyProperty="id" parameterType="com.lfs.dao.entity.DaoEntity">
+        ${paramsSql}
+        <foreach collection ="requestParams" item="reddemCode" index= "index" separator =",">
+            ${valueSql}
+        </foreach>
+
+    </insert>
+
+    <!-- 根据ID查询单个 -->
+    <select id="select" resultType="hashMap"  parameterType="com.lfs.dao.entity.DaoEntity">
+        ${paramsSql}
+    </select>
+
+    <update id="update"   parameterType="com.lfs.dao.entity.DaoEntity">
+          ${paramsSql}
+    </update>
+
+    <delete id="delete"  parameterType="com.lfs.dao.entity.DaoEntity">
+        <![CDATA[${paramsSql} ]]>
+    </delete>
+
+</mapper>
