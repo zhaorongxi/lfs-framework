@@ -10,7 +10,7 @@
 2.  lfs-base通过切面与注解的方式对Service接口中的所有请求参数,返回参数进行统一日志打印处理,并提供了接口统一返回对象,统一异常返回类,业务异常类,全局异常处理,自定义业务统一异常,无需捕获处理的异常,
     这些异常类用来针对业务中不同的场景使用. base模块还提供了常用的枚举类,统一的错误码枚举,系统返回码枚举,常用的工具类,CollectionUtil集合工具类,Assert断言工具类,SpringUtil工具类等
 
-3.  lfs-cache提供了缓存服务的处理,对redis的操作进行封装,并提供了CommonCache,StringCache,SetCache,MapCache,ListCache几种数据类型的操作满足项目日常操作需要. 针对分布式操作也提供了Redisson分布     式事务锁的封装,只需调用RedissonClient即可
+3.  lfs-common 提供了公共的注解,redis缓存操作,枚举类,常亮类,公共异常类,工具类等各个微服务使用的公共基础模块.
 
 4.  lfs-elasticsearch模块提供了针对elasticsearch的增删改查操作处理,不管是用logstash还是用canal都可以同步数据到es中,对于数据量庞大的表结构查询效率非常好,
     建议采用canal同步数据,实时性比较好,如果用logstash同步会有10-30秒左右的延迟,要求实时性高的话不太适合,canal则是采用同步binlog方式实时同步.
@@ -24,4 +24,6 @@
 8.  lfs-mongodb模块把操作mongodb的增删改查以及特定条件的查询封装成模块,只需要在配置文件中配置好mongodb的数据源即可使用.
 
 9.  lfs-http模块就是简单的封装了一下http的post,get请求还有https的post请求
+
+10. lfs-intefaces模块提供了公共封装的通用接口调用,接口公用类等
 
