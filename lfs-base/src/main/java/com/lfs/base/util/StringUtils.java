@@ -41,11 +41,14 @@ import com.lfs.base.exception.BusinessException;
  * @author linxi
  * @version Version 0.1
  */
-public class StringUtils extends AbstractStringUtils{
+public class StringUtils extends org.apache.commons.lang3.StringUtils{
 
 	 private static AtomicInteger num = new AtomicInteger(0);
 	 private final static int MAXNUM = 9999;
 	 private static final Logger LOG = LoggerFactory.getLogger(StringUtils.class);
+
+	/** 下划线 */
+	private static final char SEPARATOR = '_';
 	 
 	 public static final String ALL_INTERFACES="0.0.0.0";
 	 public static final String CRLF="\015\012";
@@ -403,6 +406,17 @@ public class StringUtils extends AbstractStringUtils{
 	public static Boolean isEmpty(String str) {
 		return str == null || str.length() == 0;
 
+	}
+
+	/**
+	 * * 判断一个对象数组是否为空
+	 *
+	 * @param objects 要判断的对象数组
+	 ** @return true：为空 false：非空
+	 */
+	public static boolean isEmpty(Object[] objects)
+	{
+		return isNull(objects) || (objects.length == 0);
 	}
 	/**
 	 * 方法用途: 判断字符串非空<br>
@@ -2978,6 +2992,28 @@ public class StringUtils extends AbstractStringUtils{
 		return result;
 	}
 
+	/**
+	 * * 判断一个对象是否非空
+	 *
+	 * @param object Object
+	 * @return true：非空 false：空
+	 */
+	public static boolean isNotNull(Object object)
+	{
+		return !isNull(object);
+	}
+
+	/**
+	 * * 判断一个对象是否为空
+	 *
+	 * @param object Object
+	 * @return true：为空 false：非空
+	 */
+	public static boolean isNull(Object object)
+	{
+		return object == null;
+	}
+
 	
 
 	/**
@@ -3202,6 +3238,77 @@ public class StringUtils extends AbstractStringUtils{
 			e1.printStackTrace();
 		}
 		return enstr;
+	}
+
+	/**
+	 * 下划线转驼峰命名
+	 */
+	public static String toUnderScoreCase(String str)
+	{
+		if (str == null)
+		{
+			return null;
+		}
+		StringBuilder sb = new StringBuilder();
+		// 前置字符是否大写
+		boolean preCharIsUpperCase = true;
+		// 当前字符是否大写
+		boolean curreCharIsUpperCase = true;
+		// 下一字符是否大写
+		boolean nexteCharIsUpperCase = true;
+		for (int i = 0; i < str.length(); i++)
+		{
+			char c = str.charAt(i);
+			if (i > 0)
+			{
+				preCharIsUpperCase = Character.isUpperCase(str.charAt(i - 1));
+			}
+			else
+			{
+				preCharIsUpperCase = false;
+			}
+
+			curreCharIsUpperCase = Character.isUpperCase(c);
+
+			if (i < (str.length() - 1))
+			{
+				nexteCharIsUpperCase = Character.isUpperCase(str.charAt(i + 1));
+			}
+
+			if (preCharIsUpperCase && curreCharIsUpperCase && !nexteCharIsUpperCase)
+			{
+				sb.append(SEPARATOR);
+			}
+			else if ((i != 0 && !preCharIsUpperCase) && curreCharIsUpperCase)
+			{
+				sb.append(SEPARATOR);
+			}
+			sb.append(Character.toLowerCase(c));
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * 是否包含字符串
+	 *
+	 * @param str 验证字符串
+	 * @param strs 字符串组
+	 * @return 包含返回true
+	 */
+	public static boolean inStringIgnoreCase(String str, String... strs)
+	{
+		if (str != null && strs != null)
+		{
+			for (String s : strs)
+			{
+				if (str.equalsIgnoreCase(trim(s)))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	

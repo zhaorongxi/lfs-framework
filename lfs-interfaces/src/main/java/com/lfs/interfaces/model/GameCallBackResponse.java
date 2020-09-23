@@ -1,8 +1,8 @@
 package com.lfs.interfaces.model;
 
-import com.lfs.interfaces.common.GameResponseCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.lfs.common.constant.GameResponseCode;
 
 import java.io.Serializable;
 

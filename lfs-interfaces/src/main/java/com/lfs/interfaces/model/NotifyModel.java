@@ -1,5 +1,8 @@
 package com.lfs.interfaces.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties
 public class NotifyModel {
 private String orderNo;
 private String status;

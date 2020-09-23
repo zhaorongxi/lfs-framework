@@ -3,7 +3,7 @@
 <mapper namespace="com.lfs.interfaces.dao.LogFileDao">
 
    <select id="getLogFileList" parameterType="com.lfs.interfaces.model.vo.LogFileVO"
-		resultType="LogFileEntity">
+		resultType="com.lfs.interfaces.model.LogFileEntity">
       select o.id,a.login_name as loginName,o.modify_type as modifyType,o.log_type as logType, o.before_update as beforeUpdate
       ,o.ip_addr as ipAddr,o.modify_time as modifyTime,o.log_remark as logRemark,o.after_update as afterUpdate
       from lfs_logfile o,lfs_system_user a where o.login_name = a.login_name

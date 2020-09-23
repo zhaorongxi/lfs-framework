@@ -2,6 +2,8 @@ package com.lfs.dao.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p><b>Title:</b><i>公共基础实体类</i></p>
@@ -47,6 +49,9 @@ public class BaseEntity<T> implements Serializable{
      * 每页显示条数
      */
     private Integer pageSize;
+
+	/** 请求参数 */
+	private Map<String, Object> params;
     
 
 
@@ -108,7 +113,20 @@ public class BaseEntity<T> implements Serializable{
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
-/*	*//**
+
+	public Map<String, Object> getParams()
+	{
+		if (params == null)
+		{
+			params = new HashMap<>();
+		}
+		return params;
+	}
+
+	public void setParams(Map<String, Object> params) {
+		this.params = params;
+	}
+	/*	*//**
      * @Title enablePaging
      * @Description 启用分页
      * @return

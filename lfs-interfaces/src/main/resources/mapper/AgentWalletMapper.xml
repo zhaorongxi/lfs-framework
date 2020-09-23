@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lfs.interfaces.dao.AgentWalletDao">
+	<!--代理商信息 -->
+	<resultMap type="com.lfs.interfaces.model.AgtWallet" id="agtWalletMap">
+		<id property="id" column="id" />
+		<result property="agtPhone" column="agt_phone" />
+		<result property="credit" column="credit" />
+		<result property="freeze" column="freeze" />
+		<result property="profit" column="profit" />
+		<result property="sxCredit" column="sx_credit" />
+		<result property="lastTime" column="last_time" />
+
+	</resultMap>
+
+	<!-- 修改保证金余额和佣金 -->
+	<select id="addAgentWallet" parameterType="map" statementType="CALLABLE">
+		{call
+		procedure_add_agt_wallet(#{chargeMoney,mode=IN,jdbcType=DECIMAL},#{agtPhone,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=INTEGER})};
+	</select>
+
+</mapper>

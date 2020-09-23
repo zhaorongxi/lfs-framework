@@ -1,6 +1,6 @@
 package com.lfs.interfaces.product.service.impl;
 
-import com.lfs.interfaces.common.CommonConstants;
+import com.lfs.common.constant.CommonConstants;
 import com.lfs.interfaces.dto.ResultReturn;
 import com.lfs.interfaces.agent.service.AgentSerivce;
 import com.lfs.interfaces.dao.OrderChargeDao;
@@ -86,13 +86,14 @@ public class ProductServiceImpl implements ProductService {
 				resp.setStatus(CommonConstants.RESP_CHARGE_SAMEreq_stream_id).setMsg("不允许重复流水号提交").setData(vo);
 			} else {
 				List<AgtSecurityVo> securities = agentSerivce.verifyOrder(dto.getAgtPhone());
-				if (securities.size() > 0) {
-					if (securities.get(0).getState() == 0) {
+				if (!securities.isEmpty()) {
+					if (securities.get(0).getState() == CommonConstants.SUCCESS) {
 						// 查询产品
 						Map<String, Object> map = new HashMap<>();
 						map.put("agtNo", securities.get(0).getAgtNo());
 						map.put("productCode", dto.getProductCode());
 						map.put("chargeType", dto.getChargeType());
+						map.put("chargeMoney",dto.getChargeMoney());
 						log.info("【校验订单信息】,agtNo={},productCode={},chargeType={}", securities.get(0).getAgtNo(),
 								dto.getProductCode(), dto.getChargeType());
 						List<Product> products = productDao.getProductRightByAgtNo(map);

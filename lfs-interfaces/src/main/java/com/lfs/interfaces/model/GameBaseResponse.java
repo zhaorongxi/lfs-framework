@@ -1,6 +1,6 @@
 package com.lfs.interfaces.model;
 
-import com.lfs.interfaces.common.Constant;
+import com.lfs.common.constant.Constant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

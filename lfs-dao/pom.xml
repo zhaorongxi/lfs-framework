@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.lfs.framework</groupId>
-            <artifactId>lfs-cache</artifactId>
+            <artifactId>lfs-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>5.0.0</version>
+            <version>5.1.4</version>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>

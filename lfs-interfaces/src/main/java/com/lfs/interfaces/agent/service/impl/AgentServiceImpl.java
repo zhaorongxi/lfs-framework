@@ -1,7 +1,7 @@
 package com.lfs.interfaces.agent.service.impl;
 
+import com.lfs.common.constant.Constant;
 import com.lfs.interfaces.agent.service.AgentSerivce;
-import com.lfs.interfaces.common.Constants;
 import com.lfs.interfaces.dao.AgentDao;
 import com.lfs.interfaces.dto.ResultReturn;
 import com.lfs.interfaces.model.Agent;
@@ -74,12 +74,12 @@ public class AgentServiceImpl implements AgentSerivce {
                 vo.setAppId(accesses.get(0).getAppId());
                 vo.setAppKey(accesses.get(0).getAppKey());
                 vo.setId(accesses.get(0).getId());
-                return new ResultReturn<AgtAccessVo>().setStatus(Constants.SUCCESS).setData(vo);
+                return new ResultReturn<AgtAccessVo>().setStatus(Constant.SUCCESS).setData(vo);
             } else {
-                return new ResultReturn<AgtAccessVo>().setStatus(Constants.FAILED).setData(null);
+                return new ResultReturn<AgtAccessVo>().setStatus(Constant.FAILED).setData(null);
             }
         } catch (Exception e) {
-            return new ResultReturn<AgtAccessVo>().setStatus(Constants.EXCEPTION).setData(null);
+            return new ResultReturn<AgtAccessVo>().setStatus(Constant.EXCEPTION).setData(null);
         }
     }
 

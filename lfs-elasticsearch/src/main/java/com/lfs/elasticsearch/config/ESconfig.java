@@ -2,7 +2,7 @@ package com.lfs.elasticsearch.config;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,13 +60,13 @@ public class ESconfig {
             String[] hostPorts = elasticsearchClusterNodes.split(",");
             Arrays.stream(hostPorts).forEach(hostPort ->{
                 String[] ipPort=hostPort.split(":");
-                transportClient.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress(ipPort[0],Integer.parseInt(ipPort[1]))));
+                transportClient.addTransportAddress(new TransportAddress(new InetSocketAddress(ipPort[0],Integer.parseInt(ipPort[1]))));
             });
             return transportClient;
         }else {
             //没有配置集群的情况下
             try {
-                InetSocketTransportAddress node = new InetSocketTransportAddress(InetAddress.getByName(elasticsearchIp), elasticsearchPort);
+                TransportAddress node = new TransportAddress(InetAddress.getByName(elasticsearchIp), elasticsearchPort);
                 transportClient.addTransportAddress(node);
             } catch (UnknownHostException e) {
                 e.printStackTrace();

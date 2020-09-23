@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
-            <version>5.6.9</version>
+            <version>6.4.3</version>
         </dependency>
 
         <dependency>

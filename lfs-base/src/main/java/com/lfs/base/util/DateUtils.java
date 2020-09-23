@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * @author linxi
  * @version Version 0.1
  */
-public class DateUtils {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	private static final long SECOND = 1000;
 	private static final long MINUTE = SECOND * 60;
 	private static final long HOUR = MINUTE * 60;
@@ -38,6 +38,11 @@ public class DateUtils {
 	private static final long WEEK = DAY * 7;
 	private static final long MONTH = DAY * 30;
 	private static final long YEAR = DAY * 365;
+
+	private static String[] parsePatterns = {
+			"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM",
+			"yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM",
+			"yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat();
 	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -2445,5 +2450,24 @@ public class DateUtils {
 		public static Date parseDateTime(String endTime) {
 			return parse(endTime,"yyyy-MM-dd HH:mm:ss");
 		}
+
+	/**
+	 * 日期型字符串转化为日期 格式
+	 */
+	public static Date parseDate(Object str)
+	{
+		if (str == null)
+		{
+			return null;
+		}
+		try
+		{
+			return parseDate(str.toString(), parsePatterns);
+		}
+		catch (ParseException e)
+		{
+			return null;
+		}
+	}
 }
 

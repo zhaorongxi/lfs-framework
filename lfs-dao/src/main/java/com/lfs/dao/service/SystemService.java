@@ -1,7 +1,7 @@
 package com.lfs.dao.service;
 
 import com.lfs.base.util.StringUtils;
-import com.lfs.cache.redis.RedisBase;
+import com.lfs.common.cache.redis.RedisBase;
 import com.lfs.dto.entity.UserInfoEntity;
 import net.sf.cglib.beans.BeanMap;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ public class SystemService {
 		}
 		//根据token获取用户ID
 		//根据用户ID获取用户信息
-        UserInfoEntity entity= (UserInfoEntity)RedisBase.getStringCache().get(USER_INFO  + userId);
+        UserInfoEntity entity= (UserInfoEntity) RedisBase.getStringCache().get(USER_INFO  + userId);
         logger.info("############user: 【"+entity+"】");
         if(null==entity || null == entity.getId()){
 			entity = new UserInfoEntity();
