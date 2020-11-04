@@ -1,9 +1,13 @@
 package com.lfs.interfaces.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lfs.common.core.domain.BaseEntity;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class OrderInfoVO implements Serializable {
+public class OrderInfoVO extends BaseEntity implements Serializable{
 
     private static final long serialVersionUID = -7924457651725561859L;
     private String orderNo;
@@ -18,9 +22,8 @@ public class OrderInfoVO implements Serializable {
 
     private String chargeAddr;
 
-    private String startTime;
-
-    private String endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date applyTime;
 
     private Integer state;
 
@@ -62,20 +65,12 @@ public class OrderInfoVO implements Serializable {
         this.chargeAddr = chargeAddr;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public Date getApplyTime() {
+        return applyTime;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 
     public Integer getState() {
@@ -135,8 +130,7 @@ public class OrderInfoVO implements Serializable {
                 ", upOrderNo='" + upOrderNo + '\'' +
                 ", agtPhone='" + agtPhone + '\'' +
                 ", chargeAddr='" + chargeAddr + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
+                ", applyTime=" + applyTime +
                 ", state=" + state +
                 ", exp2='" + exp2 + '\'' +
                 ", currentPage=" + currentPage +
