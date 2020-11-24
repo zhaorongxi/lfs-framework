@@ -27,6 +27,10 @@ public class Product {
     
     private Integer specialType;
 
+    private String unit;
+
+    private Integer state;
+
     public Long getProductCode() {
         return productCode;
     }
@@ -106,5 +110,20 @@ public class Product {
 	public void setSpecialType(Integer specialType) {
 		this.specialType = specialType;
 	}
-	
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 }

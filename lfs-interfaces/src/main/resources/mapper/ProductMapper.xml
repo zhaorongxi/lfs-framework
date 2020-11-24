@@ -32,7 +32,7 @@
 			and p.trade_face = #{chargeMoney}
 		</if>
 		<if test="chargeType!=null and chargeType!=''">
-			and p.number_id=#{chargeType}
+			and p.product_type=#{chargeType}
 		</if>
 		order by pg.discount desc limit 1
 

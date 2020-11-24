@@ -3,7 +3,6 @@ package com.lfs.interfaces.product.service;
 import com.lfs.interfaces.dto.ResultReturn;
 import com.lfs.interfaces.model.vo.ChannelInfoVo;
 import com.lfs.interfaces.model.dto.ChargeDto;
-import com.lfs.interfaces.model.vo.ProductInfoVo;
 import com.lfs.interfaces.model.vo.ProductVo;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface ProductService {
 
     ResultReturn<ChannelInfoVo> getChannelInfoById(String channelNo);
 
-    ResultReturn<List<ProductInfoVo>> getProductList(String agtPhone);
+    ResultReturn<List<ProductVo>> getProductList(String agtPhone);
 
     String getproductCode(Map<String, Object> paramMap);
 

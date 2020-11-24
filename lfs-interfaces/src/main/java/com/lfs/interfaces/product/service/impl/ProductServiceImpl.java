@@ -39,9 +39,9 @@ public class ProductServiceImpl implements ProductService {
 	 * 查询用户产品列表
 	 */
 	@Override
-	public ResultReturn<List<ProductInfoVo>> getProductList(String agtPhone) {
-		ResultReturn<List<ProductInfoVo>> resultReturn = new ResultReturn<>();
-		List<ProductInfoVo> list = new ArrayList<>();
+	public ResultReturn<List<ProductVo>> getProductList(String agtPhone) {
+		ResultReturn<List<ProductVo>> resultReturn = new ResultReturn<>();
+		List<ProductVo> list = new ArrayList<>();
 		try {
 			List<AgentVo> agents = agentSerivce.getAgentInfoByPhone(agtPhone).getData();
 			if (CollectionUtils.isNotEmpty(agents)) {
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 				// 查询产品
 				List<Product> products = productDao.getProductListByAgtNo(agent.getAgtNo());
 				for (Product product : products) {
-					ProductInfoVo vo = new ProductInfoVo();
+					ProductVo vo = new ProductVo();
 					vo.setArriveType(product.getArriveType());
 					vo.setBusinessCode(product.getBusinessCode());
 					vo.setBusinessName(product.getBusinessName());

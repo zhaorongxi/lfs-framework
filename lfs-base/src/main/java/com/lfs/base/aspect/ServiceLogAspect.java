@@ -28,7 +28,7 @@ public class ServiceLogAspect {
      * 操作步骤: TODO<br/>
      * ${tags}
      */
-    @Pointcut("execution(* com.lfs..*Service.*(..)) ")
+    @Pointcut("execution(* com.lfs..*Dao.*(..)) ")
     public void anyMethod(){
     }
 

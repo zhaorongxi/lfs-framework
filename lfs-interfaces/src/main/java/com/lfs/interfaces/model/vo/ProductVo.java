@@ -26,6 +26,12 @@ public class ProductVo {
     
     private Long specialType;
 
+    private String unit;
+
+    private Integer state;
+
+    private String businessName;
+
     public Long getProductCode() {
         return productCode;
     }
@@ -114,4 +120,27 @@ public class ProductVo {
 		this.specialType = specialType;
 	}
 
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 }

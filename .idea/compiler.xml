@@ -6,8 +6,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="lfs-interfaces" />
+        <module name="lfs-common" />
+        <module name="lfs-mongo" />
+        <module name="lfs-dto" />
+        <module name="lfs-base" />
+        <module name="lfs-annotation" />
+        <module name="lfs-elasticsearch" />
+        <module name="lfs-dao" />
         <module name="bc-framework" />
+        <module name="lfs-http" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lfs-annotation" options="-parameters" />
+      <module name="lfs-base" options="-parameters" />
+      <module name="lfs-common" options="-parameters" />
+      <module name="lfs-dao" options="-parameters" />
+      <module name="lfs-dto" options="-parameters" />
+      <module name="lfs-elasticsearch" options="-parameters" />
+      <module name="lfs-http" options="-parameters" />
+      <module name="lfs-interfaces" options="-parameters" />
+      <module name="lfs-mongo" options="-parameters" />
+    </option>
   </component>
 </project>

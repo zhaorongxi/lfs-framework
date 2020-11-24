@@ -131,6 +131,11 @@ public class CommonConstants {
     public static final int LOG_PRODUCT_GROUP_TYPE = 5;
 
     /**
+     * 产品操作日志
+     */
+    public static final int LOG_PRODUCT_TYPE = 6;
+
+    /**
      * 参数管理 cache key
      */
     public static final String SYS_CONFIG_KEY = "sys_config:";
